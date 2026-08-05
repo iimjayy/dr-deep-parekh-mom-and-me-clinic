@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Studio and tenant-preview query strings are authoring surfaces, not content.
+Disallow: /*?studio=
+Disallow: /*?tenant=

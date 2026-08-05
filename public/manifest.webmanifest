@@ -1,0 +1,26 @@
+{
+  "name": "Dr. Mete's Children's Clinic",
+  "short_name": "Dr. Mete's",
+  "description": "Pediatric & neonatal care in Nalasopara East — appointments, vaccination planner and WHO growth tools.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fafaf9",
+  "theme_color": "#0e8f6f",
+  "categories": ["health", "medical"],
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Book an appointment", "url": "/?action=book", "description": "Send an appointment request on WhatsApp" },
+    { "name": "Vaccination planner", "url": "/#vaccines", "description": "See which doses are due" },
+    { "name": "Growth checker", "url": "/#growth", "description": "Plot weight and height on WHO charts" }
+  ]
+}

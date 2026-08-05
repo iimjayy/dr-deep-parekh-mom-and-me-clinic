@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Title, description and the full structured-data graph are injected at
+         runtime from the active tenant config (src/lib/seo.js). These are the
+         crawl-time fallbacks. -->
+    <title>Dr. Deep Parekh's Mom & Me Clinic | Pediatrician & Neonatologist, Ghatkopar East</title>
+    <meta
+      name="description"
+      content="Dr. Deep B. Parekh — MBBS, DCH, DNB Paediatrics (19+ Yrs Exp) & Dr. Charmi D. Parekh. Newborn care, painless WHO/IAP vaccination, WHO growth tracking in Ghatkopar East, Mumbai."
+    />
+
+    <meta name="theme-color" content="#0284c7" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👶</text></svg>"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <style>
+      /* Holds the first paint steady until the stylesheet and theme land.
+         The site opens light for everyone, so this stays light even on a
+         dark-mode device — otherwise there is a dark flash before mount. */
+      #root:empty::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: #fafaf9;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="max-width:40rem;margin:4rem auto;padding:0 1.5rem;font-family:system-ui,sans-serif;line-height:1.6">
+        <h1 style="font-size:1.5rem">Dr. Deep Parekh's Mom & Me Clinic</h1>
+        <p>This site needs JavaScript for the interactive tools. The essentials:</p>
+        <ul>
+          <li><strong>Phone / WhatsApp:</strong> <a href="tel:09819975927">098199 75927</a></li>
+          <li><strong>Hours:</strong> Mon–Sat: Morning 10:30 AM – 1:30 PM | Evening 5:00 PM – 9:00 PM</li>
+          <li><strong>Address:</strong> 808, 8th Floor, G Square Building, Jawahar Road, above Kalyan Jewellers, Ghatkopar East, Mumbai 400077</li>
+          <li><strong>Consultation:</strong> ₹800</li>
+        </ul>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
