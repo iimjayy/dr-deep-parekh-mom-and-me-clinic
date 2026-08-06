@@ -489,18 +489,18 @@ export default {
         src: '/gallery/unnamed-2.jpg',
         title: { en: 'Dr. Deep Parekh Consultation Chamber', hi: 'डॉ. दीप पारेख परामर्श कक्ष', mr: 'डॉ. दीप पारेख तपासणी कक्ष' },
         caption: {
-          en: 'Fully equipped pediatric examination room with comfortable seating and growth measurement tools.',
-          hi: 'सुसज्जित बाल रोग जाँच कक्ष, जहाँ डॉक्टर दीप पारेख बच्चों का इलाज करते हैं।',
-          mr: 'सर्व सोयींनी युक्त बालरोग तपासणी कक्ष जिथे डॉ. दीप पारेख बालकांवर उपचार करतात.',
+          en: 'Private pediatric consultation chamber with doctor desk, patient seating, and cheerful wall art for unhurried discussions.',
+          hi: 'निजी बाल रोग परामर्श कक्ष जहाँ डॉक्टर दीप पारेख माता-पिता से विस्तार से चर्चा करते हैं।',
+          mr: 'खाजगी बालरोग तपासणी कक्ष जिथे डॉ. दीप पारेख पालकांशी सविस्तर चर्चा करतात.',
         },
       },
       {
-        src: '/gallery/unnamed-8.jpg',
-        title: { en: 'Patient Waiting Lounge', hi: 'मरीज़ प्रतीक्षा लाउंज', mr: 'रुग्ण प्रतीक्षा लाउंज' },
+        src: '/gallery/unnamed-5.jpg',
+        title: { en: 'Children Activity & Play Area', hi: 'बाल गतिविधि एवं खिलौना ज़ोन', mr: 'बाल उपक्रम व खेळणी क्षेत्र' },
         caption: {
-          en: 'Air-conditioned, spacious lounge designed for comfortable waiting under 20 minutes.',
-          hi: 'आरामदायक एयर-कंडीशन्ड वेटिंग एरिया, जहाँ औसतन 20 मिनट से कम समय में नंबर आता है।',
-          mr: '२० मिनिटांपेक्षा कमी प्रतीक्षेसाठी वातानुकूलित व प्रशस्त प्रतीक्षा क्षेत्र.',
+          en: 'Safe, disinfected toys, activity tables and books to keep toddlers engaged during their visit.',
+          hi: 'बच्चों के लिए सुरक्षित, सेनेटाइज किए गए खिलौने, एक्टिविटी टेबल और किताबें।',
+          mr: 'बालकांसाठी सुरक्षित व निर्जंतुक केलेली खेळणी, अ‍ॅक्टिव्हिटी टेबल आणि पुस्तके.',
         },
       },
       {

@@ -17,13 +17,13 @@ export default function Gallery({ section }) {
   if (!allItems.length) return null;
 
   // Custom ordered items for Set 1 as explicitly requested by user:
-  // 1 (Big Left): Clinic Interior & Ambient Lighting
-  // 2 (Top Right): Piano Reception & Soft Play Lawn
-  // 3 (Bottom Right): Children Activity & Play Area
+  // 1 (Big Left): Dr. Deep Parekh Consultation Chamber (unnamed-2.jpg)
+  // 2 (Top Right): Piano Reception & Soft Play Lawn (unnamed.jpg)
+  // 3 (Bottom Right): Clinic Interior & Ambient Lighting (unnamed-3.jpg)
   const set1 = [
-    allItems.find((i) => i.src.includes('unnamed-3.jpg')) || allItems[0],
+    allItems.find((i) => i.src.includes('unnamed-2.jpg')) || allItems[0],
     allItems.find((i) => i.src.includes('unnamed.jpg')) || allItems[1],
-    allItems.find((i) => i.src.includes('unnamed-5.jpg')) || allItems[2],
+    allItems.find((i) => i.src.includes('unnamed-3.jpg')) || allItems[2],
   ];
 
   const remainingItems = allItems.filter((i) => !set1.some((s) => s.src === i.src));
