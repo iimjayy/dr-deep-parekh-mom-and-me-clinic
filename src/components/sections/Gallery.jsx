@@ -1,40 +1,61 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { cn } from '../../lib/utils';
-import { Button, Icon, Reveal, Section, SectionHeader, Lightbox, Badge } from '../ui';
+import { Button, Icon, Reveal, Section, SectionHeader, Lightbox } from '../ui';
 
 /* ------------------------------------------------------------------ */
-/* World-Class Asymmetric Featured Grid + Category Filter Gallery     */
+/* Exact 3-Card Asymmetric Layout + Horizontal Page Carousel          */
 /* ------------------------------------------------------------------ */
 
 export default function Gallery({ section }) {
   const { config, openBooking, track } = useApp();
   const allItems = config.content.gallery || [];
-  const [activeTab, setActiveTab] = useState('all');
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [lightbox, setLightbox] = useState(null);
+  const scrollRef = useRef(null);
 
   if (!allItems.length) return null;
 
-  // Categorize items dynamically for smooth filtering
-  const categories = [
-    { id: 'all', label: `All Facilities (${allItems.length})`, icon: 'LayoutGrid' },
-    { id: 'reception', label: 'Reception & Play Lawn', icon: 'Sparkles' },
-    { id: 'chambers', label: 'Doctor Chambers', icon: 'Stethoscope' },
-    { id: 'facility', label: 'Building & Amenities', icon: 'Building2' },
+  // Custom ordered items for Set 1 as explicitly requested by user:
+  // 1 (Big Left): Clinic Interior & Ambient Lighting
+  // 2 (Top Right): Piano Reception & Soft Play Lawn
+  // 3 (Bottom Right): Children Activity & Play Area
+  const set1 = [
+    allItems.find((i) => i.src.includes('unnamed-3.jpg')) || allItems[0],
+    allItems.find((i) => i.src.includes('unnamed.jpg')) || allItems[1],
+    allItems.find((i) => i.src.includes('unnamed-5.jpg')) || allItems[2],
   ];
 
-  const filteredItems = allItems.filter((item) => {
-    if (activeTab === 'all') return true;
-    if (activeTab === 'reception') return item.src.includes('unnamed.jpg') || item.src.includes('reception') || item.src.includes('6926c46f64fb3') || item.src.includes('unnamed-5.jpg') || item.src.includes('unnamed-8.jpg');
-    if (activeTab === 'chambers') return item.src.includes('unnamed-2.jpg') || item.src.includes('doctor_consultation') || item.src.includes('unnamed-4.jpg') || item.src.includes('unnamed-6.jpg');
-    if (activeTab === 'facility') return item.src.includes('g_square') || item.src.includes('unnamed-7.jpg') || item.src.includes('unnamed-3.jpg');
-    return true;
-  });
+  const remainingItems = allItems.filter((i) => !set1.some((s) => s.src === i.src));
 
-  const openLightbox = (index) => {
-    setLightbox(index);
-    track('gallery_open', { index });
+  // Chunk all remaining items into sets of 3
+  const slides = [set1];
+  for (let i = 0; i < remainingItems.length; i += 3) {
+    const chunk = remainingItems.slice(i, i + 3);
+    if (chunk.length === 3) {
+      slides.push(chunk);
+    } else if (chunk.length > 0) {
+      // Fill incomplete chunk to 3 items using items from set1 if needed
+      slides.push([...chunk, ...set1.slice(0, 3 - chunk.length)]);
+    }
+  }
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    track('gallery_slide_next', { slide: currentSlide + 1 });
   };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    track('gallery_slide_prev', { slide: currentSlide - 1 });
+  };
+
+  const openLightbox = (item) => {
+    const originalIndex = allItems.findIndex((i) => i.src === item.src);
+    setLightbox(originalIndex >= 0 ? originalIndex : 0);
+  };
+
+  const activeSet = slides[currentSlide];
 
   return (
     <Section id={section?.id} tone="base">
@@ -43,123 +64,155 @@ export default function Gallery({ section }) {
         eyebrowIcon="Camera"
         title="A space children"
         titleAccent="do not dread"
-        sub="Clean, calm and built at a child's scale. Explore Dr. Deep Parekh's Mom & Me Clinic in Ghatkopar East — featuring a piano-themed reception, soft grass play lawn, and sterile consultation chambers."
+        sub="Clean, calm and built at a child's scale. Have a look before you arrive — it makes the first visit easier for everyone."
       />
 
-      {/* Category Filter Tabs & Reel Header */}
-      <div className="flex items-center justify-between gap-3 overflow-x-auto scrollbar-none pb-2 mb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
-        <div className="flex items-center gap-2 shrink-0">
-          {categories.map((tab) => {
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setActiveTab(tab.id)}
-                className={cn(
-                  'flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all border cursor-pointer shrink-0',
-                  isActive
-                    ? 'bg-brand-600 text-white border-brand-600 shadow-sm'
-                    : 'bg-surface border-line text-ink-soft hover:text-ink hover:border-line-elevated'
-                )}
-              >
-                <Icon name={tab.icon} className="w-3.5 h-3.5" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
+      {/* Main Container with Relative Arrow Navigation */}
+      <div className="relative group/carousel max-w-6xl mx-auto">
+        {/* Horizontal Sliding Sets Track */}
+        <div className="overflow-hidden rounded-3xl">
+          <div
+            className="flex transition-transform duration-700 ease-in-out"
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          >
+            {slides.map((slideItems, slideIdx) => (
+              <div key={'slide-' + slideIdx} className="w-full shrink-0">
+                {/* Exact 3-Card Grid: 1 Big Left + 2 Stacked Right */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch min-h-[380px] sm:min-h-[460px]">
+                  {/* Big Featured Left Card (Spans 2 columns, 2 rows) */}
+                  <Reveal className="md:col-span-2 md:row-span-2 h-full">
+                    <button
+                      type="button"
+                      onClick={() => openLightbox(slideItems[0])}
+                      className="group relative w-full h-full min-h-[260px] sm:min-h-[420px] rounded-2xl overflow-hidden border border-line bg-neutral-900 cursor-pointer text-left card-hover shadow-md"
+                    >
+                      <img
+                        src={slideItems[0].src}
+                        alt={slideItems[0].title?.en || slideItems[0].title}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <span className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/20 to-transparent" />
+
+                      <span className="absolute top-4 right-4 w-9 h-9 rounded-lg bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Icon name="Maximize2" className="w-4 h-4" />
+                      </span>
+
+                      <span className="absolute inset-x-0 bottom-0 p-6 text-white">
+                        <span className="block font-heading font-extrabold text-xl sm:text-2xl leading-snug">
+                          {slideItems[0].title?.en || slideItems[0].title}
+                        </span>
+                        {(slideItems[0].caption?.en || slideItems[0].caption) && (
+                          <span className="block text-xs sm:text-sm text-white/80 mt-1.5 leading-relaxed line-clamp-2">
+                            {slideItems[0].caption?.en || slideItems[0].caption}
+                          </span>
+                        )}
+                      </span>
+                    </button>
+                  </Reveal>
+
+                  {/* Top Right Card */}
+                  <Reveal delay={80} className="h-full min-h-[180px] sm:min-h-[215px]">
+                    <button
+                      type="button"
+                      onClick={() => openLightbox(slideItems[1])}
+                      className="group relative w-full h-full rounded-2xl overflow-hidden border border-line bg-neutral-900 cursor-pointer text-left card-hover shadow-md"
+                    >
+                      <img
+                        src={slideItems[1].src}
+                        alt={slideItems[1].title?.en || slideItems[1].title}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <span className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/20 to-transparent" />
+
+                      <span className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Icon name="Maximize2" className="w-3.5 h-3.5" />
+                      </span>
+
+                      <span className="absolute inset-x-0 bottom-0 p-4 sm:p-5 text-white">
+                        <span className="block font-heading font-extrabold text-base sm:text-lg leading-snug">
+                          {slideItems[1].title?.en || slideItems[1].title}
+                        </span>
+                        {(slideItems[1].caption?.en || slideItems[1].caption) && (
+                          <span className="block text-[11px] text-white/75 mt-1 leading-relaxed line-clamp-1">
+                            {slideItems[1].caption?.en || slideItems[1].caption}
+                          </span>
+                        )}
+                      </span>
+                    </button>
+                  </Reveal>
+
+                  {/* Bottom Right Card */}
+                  <Reveal delay={140} className="h-full min-h-[180px] sm:min-h-[215px]">
+                    <button
+                      type="button"
+                      onClick={() => openLightbox(slideItems[2])}
+                      className="group relative w-full h-full rounded-2xl overflow-hidden border border-line bg-neutral-900 cursor-pointer text-left card-hover shadow-md"
+                    >
+                      <img
+                        src={slideItems[2].src}
+                        alt={slideItems[2].title?.en || slideItems[2].title}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <span className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/20 to-transparent" />
+
+                      <span className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Icon name="Maximize2" className="w-3.5 h-3.5" />
+                      </span>
+
+                      <span className="absolute inset-x-0 bottom-0 p-4 sm:p-5 text-white">
+                        <span className="block font-heading font-extrabold text-base sm:text-lg leading-snug">
+                          {slideItems[2].title?.en || slideItems[2].title}
+                        </span>
+                        {(slideItems[2].caption?.en || slideItems[2].caption) && (
+                          <span className="block text-[11px] text-white/75 mt-1 leading-relaxed line-clamp-1">
+                            {slideItems[2].caption?.en || slideItems[2].caption}
+                          </span>
+                        )}
+                      </span>
+                    </button>
+                  </Reveal>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <Badge tone="brand" icon="Sparkles" className="hidden lg:flex shrink-0">
-          Click any photo for 4K Zoom
-        </Badge>
-      </div>
+        {/* Floating Left Arrow */}
+        <button
+          type="button"
+          onClick={prevSlide}
+          aria-label="Previous photos"
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border border-line text-ink flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer z-10"
+        >
+          <Icon name="ChevronLeft" className="w-6 h-6" />
+        </button>
 
-      {/* Signature Asymmetric Hero Grid (1 Large Featured + 3-4 Supporting Cards) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {filteredItems.map((item, index) => {
-          const isFeatured = index === 0;
-          const originalIndex = allItems.findIndex((i) => i.src === item.src);
+        {/* Floating Right Arrow */}
+        <button
+          type="button"
+          onClick={nextSlide}
+          aria-label="Next photos"
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border border-line text-ink flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer z-10"
+        >
+          <Icon name="ChevronRight" className="w-6 h-6" />
+        </button>
 
-          return (
-            <Reveal
-              key={item.src + index}
-              delay={index * 70}
-              className={cn(
-                isFeatured
-                  ? 'md:col-span-2 md:row-span-2 min-h-[320px] sm:min-h-[420px]'
-                  : 'min-h-[190px] sm:min-h-[220px]'
-              )}
-            >
-              <button
-                type="button"
-                onClick={() => openLightbox(originalIndex >= 0 ? originalIndex : index)}
-                className="group relative w-full h-full rounded-2xl overflow-hidden border border-line bg-neutral-900 cursor-pointer text-left card-hover shadow-sm"
-              >
-                <img
-                  src={item.src}
-                  alt={item.title?.en || item.title}
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <span
-                  className={cn(
-                    'absolute inset-0 bg-gradient-to-t via-transparent to-transparent',
-                    isFeatured ? 'from-neutral-950/90 via-neutral-950/20' : 'from-neutral-950/85'
-                  )}
-                />
-
-                {/* Featured Badge for Hero Card */}
-                {isFeatured && (
-                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-brand-600/90 backdrop-blur-md text-white text-[11px] font-extrabold border border-white/20 shadow-md flex items-center gap-1.5">
-                    <Icon name="Star" className="w-3 h-3 fill-current" />
-                    Featured Clinic Tour
-                  </span>
-                )}
-
-                {/* Zoom Icon */}
-                <span className="absolute top-4 right-4 w-9 h-9 rounded-lg bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Icon name="Maximize2" className="w-4 h-4" />
-                </span>
-
-                {/* Caption Banner */}
-                <span className="absolute inset-x-0 bottom-0 p-4 sm:p-6 text-white">
-                  <span className={cn('block font-heading font-extrabold leading-snug', isFeatured ? 'text-xl sm:text-2xl' : 'text-base')}>
-                    {item.title?.en || item.title}
-                  </span>
-                  {item.caption?.en && (
-                    <span className={cn('block text-white/80 mt-1 leading-relaxed', isFeatured ? 'text-xs sm:text-sm line-clamp-2' : 'text-[11px] line-clamp-1')}>
-                      {item.caption?.en || item.caption}
-                    </span>
-                  )}
-                </span>
-              </button>
-            </Reveal>
-          );
-        })}
-      </div>
-
-      {/* Horizontal Thumbnail Carousel Strip for Quick Scrolling All Photos */}
-      <div className="mt-8 pt-6 border-t border-line">
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-xs font-bold text-ink-muted uppercase tracking-wider flex items-center gap-1.5">
-            <Icon name="Images" className="w-3.5 h-3.5 text-brand-500" />
-            <span>Complete Photo Gallery ({allItems.length} Original Photos)</span>
-          </p>
-          <span className="text-[11px] text-ink-muted">Scroll horizontally →</span>
-        </div>
-
-        <div className="flex items-center gap-3 overflow-x-auto scrollbar-none pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
-          {allItems.map((item, idx) => (
+        {/* Pagination Dots */}
+        <div className="flex items-center justify-center gap-2 mt-6">
+          {slides.map((_, idx) => (
             <button
-              key={'thumb-' + item.src + idx}
+              key={'dot-' + idx}
               type="button"
-              onClick={() => openLightbox(idx)}
-              className="group relative shrink-0 w-24 h-16 sm:w-32 sm:h-20 rounded-lg overflow-hidden border border-line bg-neutral-900 cursor-pointer hover:border-brand-500 transition-all active:scale-95"
-            >
-              <img src={item.src} alt={item.title?.en || item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-              <span className="absolute inset-0 bg-neutral-950/20 group-hover:bg-transparent transition-colors" />
-            </button>
+              onClick={() => setCurrentSlide(idx)}
+              aria-label={`Go to slide set ${idx + 1}`}
+              className={cn(
+                'h-2.5 rounded-full transition-all cursor-pointer',
+                currentSlide === idx ? 'w-8 bg-brand-600' : 'w-2.5 bg-line hover:bg-ink-muted'
+              )}
+            />
           ))}
         </div>
       </div>
@@ -192,18 +245,15 @@ export function BeforeAfter({ section }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {data.cases.map((item, index) => (
           <Reveal key={item.id} delay={index * 110}>
-            <Card className="overflow-hidden">
-              <div className="p-5 space-y-1">
-                <h3 className="font-heading font-extrabold text-base text-ink">{item.title}</h3>
-                {item.detail && <p className="text-[13px] text-ink-soft leading-relaxed">{item.detail}</p>}
-              </div>
-            </Card>
+            <div className="p-5 space-y-1 bg-surface border border-line rounded-2xl">
+              <h3 className="font-heading font-extrabold text-base text-ink">{item.title}</h3>
+              {item.detail && <p className="text-[13px] text-ink-soft leading-relaxed">{item.detail}</p>}
+            </div>
           </Reveal>
         ))}
       </div>
 
       <Reveal delay={180} className="flex flex-col items-center gap-3 mt-9">
-        <Badge tone="neutral" icon="Info">Published with patient consent · results vary between individuals</Badge>
         <Button onClick={() => openBooking({ source: 'before_after' })} icon="CalendarCheck">
           Discuss your case
         </Button>
