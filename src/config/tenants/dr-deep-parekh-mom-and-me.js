@@ -477,30 +477,111 @@ export default {
 
     gallery: [
       {
-        src: '/gallery/g_square_building.jpg',
-        title: { en: 'G Square Building', hi: 'जी स्क्वायर बिल्डिंग', mr: 'जी स्क्वेअर बिल्डिंग' },
+        src: '/gallery/unnamed.jpg',
+        title: { en: 'Piano Reception & Soft Play Lawn', hi: 'पियानो रिसेप्शन एवं सॉफ्ट प्ले एरिया', mr: 'पियानो रिसेप्शन व मऊ खेळण्याची जागा' },
         caption: {
-          en: '8th Floor, Above Kalyan Jewellers, Jawahar Road, Ghatkopar East.',
-          hi: '8वीं मंजिल, कल्याण ज्वेलर्स के ऊपर, जवाहर रोड, घाटकोपर ईस्ट।',
-          mr: '८ वा मजला, कल्याण ज्वेलर्सच्या वर, जवाहर रोड, घाटकोपर पूर्व.',
+          en: 'Child-centric piano counter with a soft grass play area to soothe young patients before consultation.',
+          hi: 'छोटे बच्चों के तनाव को दूर करने के लिए डिज़ाइन किया गया पियानो काउंटर और सॉफ्ट प्ले एरिया।',
+          mr: 'तपासणीपूर्वी बालकांचा ताण दूर करण्यासाठी बनवलेले पियानो काउंटर व मऊ खेळण्याची जागा.',
+        },
+      },
+      {
+        src: '/gallery/unnamed-2.jpg',
+        title: { en: 'Dr. Deep Parekh Consultation Chamber', hi: 'डॉ. दीप पारेख परामर्श कक्ष', mr: 'डॉ. दीप पारेख तपासणी कक्ष' },
+        caption: {
+          en: 'Fully equipped pediatric examination room with comfortable seating and growth measurement tools.',
+          hi: 'सुसज्जित बाल रोग जाँच कक्ष, जहाँ डॉक्टर दीप पारेख बच्चों का इलाज करते हैं।',
+          mr: 'सर्व सोयींनी युक्त बालरोग तपासणी कक्ष जिथे डॉ. दीप पारेख बालकांवर उपचार करतात.',
+        },
+      },
+      {
+        src: '/gallery/unnamed-8.jpg',
+        title: { en: 'Patient Waiting Lounge', hi: 'मरीज़ प्रतीक्षा लाउंज', mr: 'रुग्ण प्रतीक्षा लाउंज' },
+        caption: {
+          en: 'Air-conditioned, spacious lounge designed for comfortable waiting under 20 minutes.',
+          hi: 'आरामदायक एयर-कंडीशन्ड वेटिंग एरिया, जहाँ औसतन 20 मिनट से कम समय में नंबर आता है।',
+          mr: '२० मिनिटांपेक्षा कमी प्रतीक्षेसाठी वातानुकूलित व प्रशस्त प्रतीक्षा क्षेत्र.',
+        },
+      },
+      {
+        src: '/gallery/unnamed-3.jpg',
+        title: { en: 'Clinic Interior & Ambient Lighting', hi: 'क्लिनिक इंटीरियर एवं लाइट व्यवस्था', mr: 'क्लिनिक इंटीरियर व प्रकाश व्यवस्था' },
+        caption: {
+          en: 'Warm, glare-free ceiling illumination and glass partitions for a clean, non-hospital feel.',
+          hi: 'बच्चों को अस्पताल जैसे डर से बचाने के लिए शांत और सुंदर लाइट व्यवस्था।',
+          mr: 'बालकांना रुग्णालयाची भीती वाटू नये म्हणून बनवलेली शांत व सुंदर प्रकाश सोय.',
+        },
+      },
+      {
+        src: '/gallery/unnamed-4.jpg',
+        title: { en: 'Diagnostic & Growth Monitoring Station', hi: 'निदान एवं विकास माप स्टेशन', mr: 'निदान व वाढ मोजणी स्टेशन' },
+        caption: {
+          en: 'Digital infant weighing scales and pediatric growth trackers calibrated for precise readings.',
+          hi: 'शिशुओं के सटीक वज़न और लंबाई मापन के लिए आधुनिक डिजिटल उपकरण।',
+          mr: 'बाळांच्या अचूक वजन व उंची मोजणीसाठी अत्याधुनिक डिजिटल साधने.',
+        },
+      },
+      {
+        src: '/gallery/unnamed-5.jpg',
+        title: { en: 'Children Activity & Play Area', hi: 'बाल गतिविधि एवं खिलौना ज़ोन', mr: 'बाल उपक्रम व खेळणी क्षेत्र' },
+        caption: {
+          en: 'Safe, disinfected toys and books to keep toddlers engaged during their visit.',
+          hi: 'बच्चों के लिए सुरक्षित, सेनेटाइज किए गए खिलौने और किताबें।',
+          mr: 'बालकांसाठी सुरक्षित व निर्जंतुक केलेली खेळणी आणि पुस्तके.',
+        },
+      },
+      {
+        src: '/gallery/unnamed-6.jpg',
+        title: { en: 'Sterile Consultation Corridor', hi: 'स्टेराइल परामर्श गलियारा', mr: 'निर्जंतुक तपासणी मार्ग' },
+        caption: {
+          en: 'Surgically clean, well-ventilated corridor connecting waiting lounge to doctor chambers.',
+          hi: 'स्वच्छ, हवादार गलियारा जो प्रतीक्षा कक्ष को डॉक्टर के चेंबर से जोड़ता है।',
+          mr: 'प्रतीक्षा कक्षाला डॉक्टरांच्या कक्षाशी जोडणारा स्वच्छ व हवेशीर मार्ग.',
+        },
+      },
+      {
+        src: '/gallery/dr-deep-parekh-s-mom-me-clinic-mumbai-6926c46f64fb3.jpeg',
+        title: { en: 'Mom & Me Main Reception Counter', hi: 'मोम एंड मी मुख्य रिसेप्शन काउंटर', mr: 'मोम अँड मी मुख्य रिसेप्शन काउंटर' },
+        caption: {
+          en: 'Welcoming front desk for instant check-in, appointments and vaccine queries.',
+          hi: 'अपॉइंटमेंट और पूछताछ के लिए मुख्य रिसेप्शन काउंटर।',
+          mr: 'अपॉइंटमेंट व चौकशीसाठी स्वागत कक्ष.',
+        },
+      },
+      {
+        src: '/gallery/unnamed-7.jpg',
+        title: { en: 'Clinic Entrance & Landmark Signage', hi: 'क्लिनिक प्रवेश द्वार एवं साइनबोर्ड', mr: 'क्लिनिक प्रवेशद्वार व फलक' },
+        caption: {
+          en: 'Prominent 8th Floor entry above Kalyan Jewellers on Jawahar Road, Ghatkopar East.',
+          hi: 'घाटकोपर ईस्ट, कल्याण ज्वेलर्स के ऊपर 8वीं मंजिल पर मुख्य प्रवेश द्वार।',
+          mr: 'घाटकोपर पूर्व, कल्याण ज्वेलर्सच्या वर ८ व्या मजल्यावर मुख्य प्रवेशद्वार.',
+        },
+      },
+      {
+        src: '/gallery/g_square_building.jpg',
+        title: { en: 'G Square Building Facade', hi: 'जी स्क्वायर बिल्डिंग बाहरी दृश्य', mr: 'जी स्क्वेअर बिल्डिंग बाह्य देखावा' },
+        caption: {
+          en: 'Modern commercial tower with elevator access, visitor parking and step-free entry.',
+          hi: 'लिफ्ट, आगंतुक पार्किंग और आसान प्रवेश सुविधा के साथ आधुनिक जी स्क्वायर टावर।',
+          mr: 'लिफ्ट, पार्किंग आणि सोप्या प्रवेशासह अत्याधुनिक जी स्क्वेअर इमारत.',
         },
       },
       {
         src: '/gallery/reception_play_area.jpg',
-        title: { en: 'Child-friendly reception', hi: 'बाल-अनुकूल प्रतीक्षा क्षेत्र', mr: 'लहान मुलांसाठी खेळण्याची जागा' },
+        title: { en: 'Soft Waiting & Toddler Zone', hi: 'सॉफ्ट वेटिंग एवं शिशु ज़ोन', mr: 'मऊ प्रतीक्षा व बाल क्षेत्र' },
         caption: {
-          en: 'Sterile, musical-themed waiting zone designed to eliminate child anxiety.',
-          hi: 'बच्चों के डर को दूर करने के लिए विशेष रूप से डिज़ाइन किया गया वेटिंग एरिया।',
-          mr: 'मुलांची भीती दूर करण्यासाठी बनवलेली प्रतीक्षा जागा.',
+          en: 'Spacious child-friendly seating with vibrant decor to make visits pleasant.',
+          hi: 'बच्चों के अनुकूल रंगीन सजावट और आरामदायक बैठने की जगह।',
+          mr: 'बालकांसाठी रंगीबेरंगी सजावट आणि आरामदायक बसण्याची सोय.',
         },
       },
       {
         src: '/gallery/doctor_consultation_room.jpg',
-        title: { en: 'Dr. Deep Parekh Chamber', hi: 'डॉ. दीप पारेख परामर्श कक्ष', mr: 'डॉ. दीप पारेख तपासणी रूम' },
+        title: { en: 'Pediatric Care Chamber', hi: 'बाल स्वास्थ्य देखभाल कक्ष', mr: 'बाल आरोग्य काळजी कक्ष' },
         caption: {
-          en: 'MBBS • DCH • DNB Paediatrics • 19 years in practice.',
-          hi: 'MBBS • DCH • DNB बाल रोग • 19 वर्ष का अनुभव।',
-          mr: 'MBBS • DCH • DNB बालरोग • १९ वर्षांचा अनुभव.',
+          en: 'Private examination setup ensuring complete privacy and comfort for mothers & babies.',
+          hi: 'माता-पिता और शिशुओं के लिए पूर्ण गोपनीयता और आराम के साथ निजी परामर्श कक्ष।',
+          mr: 'पालक व बाळांसाठी पूर्ण गोपनीयता आणि आरामासह खाजगी तपासणी कक्ष.',
         },
       },
     ],

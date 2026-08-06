@@ -4,13 +4,14 @@ import { cn, clamp } from '../../lib/utils';
 import { Button, Icon, Card, Reveal, Section, SectionHeader, Lightbox, Badge } from '../ui';
 
 /* ------------------------------------------------------------------ */
-/* Gallery                                                             */
+/* Horizontal Scroll Gallery                                           */
 /* ------------------------------------------------------------------ */
 
 export default function Gallery({ section }) {
   const { config, openBooking, track } = useApp();
   const items = config.content.gallery || [];
   const [lightbox, setLightbox] = useState(null);
+  const scrollRef = useRef(null);
 
   if (!items.length) return null;
 
@@ -19,27 +20,61 @@ export default function Gallery({ section }) {
     track('gallery_open', { index });
   };
 
+  const scroll = (direction) => {
+    if (!scrollRef.current) return;
+    const amount = direction === 'left' ? -380 : 380;
+    scrollRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+  };
+
   return (
     <Section id={section?.id} tone="base">
-      <SectionHeader
-        eyebrow="Inside the clinic"
-        eyebrowIcon="Camera"
-        title="A space children"
-        titleAccent="do not dread"
-        sub="Clean, calm and built at a child's scale. Have a look before you arrive — it makes the first visit easier for everyone."
-      />
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <SectionHeader
+          eyebrow="Inside the clinic"
+          eyebrowIcon="Camera"
+          title="A space children"
+          titleAccent="do not dread"
+          sub="Take a tour of Dr. Deep Parekh's Mom & Me Clinic in Ghatkopar East. Clean, calm, equipped with child-friendly piano reception and soft play area."
+          className="mb-0"
+        />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[minmax(0,1fr)]">
+        {/* Carousel Scroll Controls */}
+        <div className="flex items-center gap-2 self-start md:self-end shrink-0">
+          <button
+            type="button"
+            onClick={() => scroll('left')}
+            aria-label="Scroll left"
+            className="w-11 h-11 rounded-full border border-line bg-surface hover:bg-surface-elevated hover:border-brand-300 text-ink flex items-center justify-center transition-all shadow-sm active:scale-95 cursor-pointer"
+          >
+            <Icon name="ChevronLeft" className="w-5 h-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => scroll('right')}
+            aria-label="Scroll right"
+            className="w-11 h-11 rounded-full border border-line bg-surface hover:bg-surface-elevated hover:border-brand-300 text-ink flex items-center justify-center transition-all shadow-sm active:scale-95 cursor-pointer"
+          >
+            <Icon name="ChevronRight" className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Horizontal Scroll Track */}
+      <div
+        ref={scrollRef}
+        className="flex items-stretch gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
         {items.map((item, index) => (
           <Reveal
             key={item.src + index}
-            delay={index * 90}
-            className={cn(index === 0 && items.length > 2 && 'md:col-span-2 md:row-span-2')}
+            delay={index * 60}
+            className="snap-start shrink-0 w-[280px] sm:w-[340px] md:w-[380px]"
           >
             <button
               type="button"
               onClick={() => open(index)}
-              className="group relative w-full h-full min-h-[15rem] rounded-lg overflow-hidden border border-line bg-neutral-900 cursor-pointer text-left card-hover"
+              className="group relative w-full h-[260px] sm:h-[300px] rounded-xl overflow-hidden border border-line bg-neutral-900 cursor-pointer text-left card-hover shadow-sm"
             >
               <img
                 src={item.src}
@@ -47,16 +82,16 @@ export default function Gallery({ section }) {
                 loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <span className="absolute inset-0 bg-gradient-to-t from-neutral-950/88 via-neutral-950/15 to-transparent" />
+              <span className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/20 to-transparent" />
 
-              <span className="absolute top-3 right-3 w-9 h-9 rounded-md bg-white/15 backdrop-blur-md border border-white/20 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="absolute top-3 right-3 w-9 h-9 rounded-md bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <Icon name="Maximize2" className="w-4 h-4" />
               </span>
 
               <span className="absolute inset-x-0 bottom-0 p-5 text-white">
-                <span className="block font-heading font-extrabold text-lg leading-snug">{item.title}</span>
+                <span className="block font-heading font-extrabold text-base sm:text-lg leading-snug">{item.title}</span>
                 {item.caption && (
-                  <span className="block text-[12px] text-white/70 mt-1 leading-relaxed line-clamp-2">{item.caption}</span>
+                  <span className="block text-[12px] text-white/75 mt-1 leading-relaxed line-clamp-2">{item.caption}</span>
                 )}
               </span>
             </button>
@@ -68,7 +103,7 @@ export default function Gallery({ section }) {
         <Button onClick={() => openBooking({ source: 'gallery' })} icon="CalendarCheck">
           Book your first visit
         </Button>
-        <p className="text-xs text-ink-muted">Step-free entry · pram accessible · changing area</p>
+        <p className="text-xs text-ink-muted">Step-free entry · elevator access · 8th floor G Square Building</p>
       </Reveal>
 
       <Lightbox items={items} index={lightbox} onClose={() => setLightbox(null)} onNavigate={setLightbox} />
