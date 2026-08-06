@@ -496,11 +496,11 @@ export default {
       },
       {
         src: '/gallery/unnamed-5.jpg',
-        title: { en: 'Children Activity & Play Area', hi: 'बाल गतिविधि एवं खिलौना ज़ोन', mr: 'बाल उपक्रम व खेळणी क्षेत्र' },
+        title: { en: "Dr. Deep Parekh's Desk & Consultation Room", hi: 'डॉ. दीप पारेख डेस्क एवं परामर्श कक्ष', mr: 'डॉ. दीप पारेख डेस्क व तपासणी कक्ष' },
         caption: {
-          en: 'Safe, disinfected toys, activity tables and books to keep toddlers engaged during their visit.',
-          hi: 'बच्चों के लिए सुरक्षित, सेनेटाइज किए गए खिलौने, एक्टिविटी टेबल और किताबें।',
-          mr: 'बालकांसाठी सुरक्षित व निर्जंतुक केलेली खेळणी, अ‍ॅक्टिव्हिटी टेबल आणि पुस्तके.',
+          en: "Private consultation space equipped with Dr. Parekh's executive desk, patient seating, and child-friendly wall decor for relaxed consultations.",
+          hi: 'डॉक्टर दीप पारेख का निजी परामर्श कक्ष जहाँ वे बच्चों के स्वास्थ्य और विकास पर माता-पिता से खुलकर चर्चा करते हैं।',
+          mr: 'डॉ. दीप पारेख यांचा खाजगी तपासणी कक्ष जिथे ते पालकांशी सविस्तर चर्चा करतात.',
         },
       },
       {
